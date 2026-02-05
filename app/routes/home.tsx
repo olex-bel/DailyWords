@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import LinkButton from "~/shared/components/LinkButton";
+import LinkButton from "~/shared/components/ui/LinkButton";
 import wordcloud from "~/asset/wordcloud.svg";
 
 export default function Home() {

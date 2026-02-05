@@ -1,5 +1,6 @@
 import { useFetcher, Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import Surface from '~/shared/components/ui/Surface';
 
 export default function SignInForm() {
     const { t } = useTranslation();
@@ -8,7 +9,7 @@ export default function SignInForm() {
     const errorMessage = fetcher.data?.message as string | undefined;
 
     return (
-        <div className="bg-surface p-8 rounded-md shadow-md w-full max-w-md">
+        <Surface className="w-full max-w-md p-6">
             <h1 className="text-2xl font-bold mb-4">{t('signin.title')}</h1>
 
             <fetcher.Form action="/signin" method="post" className="flex flex-col gap-4">
@@ -56,6 +57,6 @@ export default function SignInForm() {
                     </Link>
                 </p>
             </fetcher.Form>
-        </div>
+        </Surface>
     );
 }

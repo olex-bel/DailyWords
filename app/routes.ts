@@ -5,7 +5,7 @@ export default [
         index("routes/home.tsx"),
         route("signin", "routes/signin.tsx"),
     ]),
-    layout("./layouts/app.tsx", [
+    layout("./layouts/app.tsx", { id: 'app '}, [
         route("learning", "routes/learning.tsx"),
         route("dashboard", "routes/dashboard.tsx"),
     ]),

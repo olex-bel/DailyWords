@@ -1,4 +1,4 @@
-import type { GrammarDetails } from '../services/dailywords';
+import type { GrammarDetails } from '../../../services/entryService';
 
 export const WORD_STYLES = {
     m: {

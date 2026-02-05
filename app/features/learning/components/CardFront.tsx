@@ -1,12 +1,12 @@
 import CardHeader from "./CardHeader";
-import Button from "~/shared/components/Button";
+import Button from "~/shared/components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { getWordStyle } from "~/features/learning/utils/card";
-import type { WordEntry } from "../services/dailywords";
+import type { Entry } from "../../../services/entryService";
 
 
 type CardFrontProps = {
-    entry: WordEntry;
+    entry: Entry;
     onShowTranslation?: () => void;
 }
 

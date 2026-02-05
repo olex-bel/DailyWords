@@ -1,8 +1,8 @@
 import { getWordStyle } from "~/features/learning/utils/card";
-import type { WordEntry } from "../services/dailywords";
+import type { Entry } from "../../../services/entryService";
 
 type CardBackProps = {
-    entry: WordEntry;
+    entry: Entry;
 }
 
 export default function CardBack({ entry }: CardBackProps) {

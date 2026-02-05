@@ -1,9 +1,24 @@
 import { useEffect } from "react";
 import { Outlet, redirect, useRevalidator } from "react-router"
-import type { LoaderFunctionArgs } from "react-router";
 import supabase from "~/services/supabase"
-import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
+import { getUserProfile } from "~/services/profileService";
+import { withSessionCache } from '~/utils/withSessionCache';
 import logo from "~/asset/logo.svg";
+import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
+import type { UserProfile } from "~/services/profileService";
+import type { LoaderFunctionArgs } from "react-router";
+import type { Route } from "./+types/app";
+import type { AuthOutletContext } from "~/hooks/useAuthContext";
+
+const getUserProfileCached = withSessionCache(
+    async (userId: string) => {
+        return getUserProfile(userId);
+    },
+    {
+        key: (userId: string) => `user_profile_${userId}`,
+        ttlMs: 30 * 60 * 1000, // 30 minutes
+    }
+);
 
 export async function clientLoader({ request}: LoaderFunctionArgs) {
     const { data: { session }, error } = await supabase.auth.getSession();
@@ -14,7 +29,13 @@ export async function clientLoader({ request}: LoaderFunctionArgs) {
         return redirect(`/signin?${params.toString()}`);
     }
 
-    return { session };
+    const profile: UserProfile | null = await getUserProfileCached(session.user.id);
+
+    if (!profile) {
+        throw new Response("User profile not found", { status: 404 });
+    }
+
+    return { session, profile };
 }
 
 const onAuthStateChange = (callback: (event : AuthChangeEvent) => void) => {
@@ -23,16 +44,19 @@ const onAuthStateChange = (callback: (event : AuthChangeEvent) => void) => {
         if (session?.user?.id == currentSession?.user?.id) {
             return;
         }
+
+        if (currentSession) {
+            getUserProfileCached.invalidate(currentSession.user.id)
+        }
         
         currentSession = session;
         callback(event);
     });
 }
 
-
-
-export default function AppLayout() {
+export default function AppLayout({ loaderData }: Route.ComponentProps) {
     const revalidator = useRevalidator();
+    const { profile } = loaderData;
 
     useEffect(() => {
         const { data } = onAuthStateChange((event) => {
@@ -50,12 +74,14 @@ export default function AppLayout() {
 
     return (
         <>
-            <header className="bg-surface shadow-sm py-1 px-2 h-[30px] md:h-[60px]">
-                <img src={logo} alt="DailyWords Logo" className="drop-shadow-md rounded-t-2xl rounded-br-2xl h-full" />
+            <header className="bg-surface shadow-sm h-[50px] md:h-[70px] flex items-center">
+                <div className="w-[90%] max-w-5xl mx-auto flex items-center">
+                    <img src={logo} alt="DailyWords Logo" className="h-8 md:h-10 drop-shadow-md rounded-t-xl rounded-br-xl" />
+                </div>
             </header>
 
             <main className="w-[90%] max-w-5xl mx-auto">
-                <Outlet />
+                <Outlet context={ { profile } satisfies AuthOutletContext }/>
             </main>
 
             <footer className="text-center py-2 text-sm text-gray-500">

@@ -2,15 +2,15 @@ import { useReducer, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 import LearningSession from "./LearningSession";
-import PorgressBar from "~/shared/components/ProgressBar";
+import PorgressBar from "~/shared/components/ui/ProgressBar";
 import NoWords from "./NoWords";
 import type { LearningState, LearningAction, Answer } from "~/features/learning/types";
-import type { WordEntry } from "~/features/learning/services/dailywords";
+import type { Entry } from "~/services/entryService";
 
 const SessionSummary = lazy(() => import('./SessionSummary'));
 
 type LearningPageProps = {
-    words: WordEntry[];
+    words: Entry[];
 };
 
 const learningReducer = (state: LearningState, action: LearningAction) => {

@@ -1,15 +1,17 @@
 
 import { useTranslation } from "react-i18next";
 import { RiRefreshLine, RiErrorWarningLine } from "react-icons/ri";
-import Button from "~/shared/components/Button";
+import Button from "~/shared/components/ui/Button";
+import ViewCenter from "~/shared/components/layout/ViewCenter";
+import Surface from "~/shared/components/ui/Surface";
 
 export default function LoadError() {
     const { t } = useTranslation();
 
     return (
-        <div className="h-full flex items-center justify-center">
-            <div className="flex flex-col text-center items-center justify-center gap-6 shadow-md rounded-md bg-surface p-6">
-                <div className="flex flex-col items-center justify-center h-full text-center gap-6">
+        <ViewCenter>
+            <Surface className="p-6">
+                <div className="flex flex-col items-center h-full gap-6">
                     <div className="mb-4 p-4 bg-orange-50 rounded-full">
                         <RiErrorWarningLine className="text-5xl text-orange-500" />
                     </div>
@@ -24,8 +26,7 @@ export default function LoadError() {
                         {t('learning.loadError.retryButton')}
                     </Button>
                 </div>
-            </div>
-        </div>
-        
+            </Surface>
+        </ViewCenter>
     );
 }

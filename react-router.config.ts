@@ -9,5 +9,6 @@ export default {
   },
   async prerender() {
     return ['/'];
-  }
+  },
+  basename: "/daily-words/",
 } satisfies Config;

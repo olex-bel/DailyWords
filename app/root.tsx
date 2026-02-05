@@ -8,6 +8,8 @@ import {
   useParams,
 } from "react-router";
 
+import { useTranslation } from "react-i18next";
+
 import type { Route } from "./+types/root";
 import "./app.css";
 import './i18n';
@@ -50,15 +52,16 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  const { t } = useTranslation();
+  let message = t("error.generic.title");
+  let details = t("error.generic.message");
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "404" : "Error";
     details =
       error.status === 404
-        ? "The requested page could not be found."
+        ? t("error.notFound.message")
         : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
@@ -67,6 +70,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-16 p-4 container mx-auto">
+      <title>{t("error.meta.title")}</title>
+      <meta name="description" content={t("error.meta.description")}/>
+      <meta name="keywords" content={t("error.meta.keywords")}/>
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (

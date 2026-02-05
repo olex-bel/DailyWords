@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 import Flashcard from "~/features/learning/components/Flashcard";
-import Button from "~/shared/components/Button";
+import Button from "~/shared/components/ui/Button";
 import { RiCloseFill, RiCheckFill, RiErrorWarningLine } from "react-icons/ri";
 import type { Answer } from "../types";
-import type { WordEntry } from "../services/dailywords";
+import type { Entry } from "../../../services/entryService";
 
 type LearningSessionProps = {
-    entry: WordEntry;
+    entry: Entry;
     onAnswer: (answer: Answer) => void;
 }
 

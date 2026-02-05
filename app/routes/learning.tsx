@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { Await } from "react-router";
 import { useTranslation } from "react-i18next";
-import { get_daily_words, MAX_DAILY_WORDS } from "~/features/learning/services/dailywords";
+import { getDailyEntries, MAX_DAILY_ENTRIES } from "~/services/entryService";
 import LearningPage from "~/features/learning/components/LearningPage";
 import LoadError from "~/features/learning/components/LoadError";
 import type { Route } from "./+types/learning";
 
 export async function clientLoader() {
-    const words = get_daily_words(MAX_DAILY_WORDS);
+    const words = getDailyEntries(MAX_DAILY_ENTRIES);
     return { words };
 }
 

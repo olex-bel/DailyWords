@@ -1,4 +1,4 @@
-import type { GrammarDetails } from "../services/dailywords";
+import type { GrammarDetails } from "../../../services/entryService";
 
 type GrammarInfoProps = {
     grammar: GrammarDetails;

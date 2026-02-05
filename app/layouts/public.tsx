@@ -1,5 +1,16 @@
 
-import { Outlet } from "react-router";
+import { Outlet, redirect } from "react-router";
+import supabase from "~/services/supabase";
+
+export async function clientAction() {
+    const { data: { session }, error } = await supabase.auth.getSession();
+
+    if (session && !error) {
+        return redirect("/dashboard");
+    }
+
+    return null;
+}
 
 export default function PublicLayout() {
     return (

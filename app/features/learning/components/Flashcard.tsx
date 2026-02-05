@@ -1,10 +1,11 @@
 import { useState } from "react";
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
-import type { WordEntry } from "../services/dailywords";
+import Surface from "~/shared/components/ui/Surface";
+import type { Entry } from "../../../services/entryService";
 
 type FlashcardProps = {
-    entry: WordEntry;
+    entry: Entry;
 }
 
 export default function Flashcard({ entry }: FlashcardProps) {
@@ -12,10 +13,10 @@ export default function Flashcard({ entry }: FlashcardProps) {
 
     return (
         <article className={`w-full max-w-md min-h-[280px] md:min-h-[320px] perspective-distant`}>
-            <div className={`rounded-md relative bg-surface transform-3d transition-transform duration-700 w-full h-full ${isFlipped ? 'rotate-x-180' : ''}`}>
+            <Surface className={`relative transform-3d transition-transform duration-700 w-full h-full ${isFlipped ? 'rotate-x-180' : ''}`}>
                 <CardFront entry={entry} onShowTranslation={() => setIsFlipped(true)} />
                 <CardBack entry={entry} />
-            </div>
+            </Surface>
         </article>
     );
 }

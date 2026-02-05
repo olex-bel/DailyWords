@@ -3,7 +3,8 @@ import type { Route } from "./+types/signin";
 import { useTranslation } from "react-i18next";
 import i18n from "~/i18n";
 import supabase from "~/services/supabase";
-import SignInForm from "~/shared/components/SignInForm";
+import ViewCenter from "~/shared/components/layout/ViewCenter";
+import SignInForm from "~/features/auth/components/SignInForm";
 
 export async function clientLoader() {
     const { data: { session }, error } = await supabase.auth.getSession();
@@ -29,19 +30,19 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
         return { success: false, message: i18n.t("signin.errorMessage") };
     }
 
-    return redirect("/learning");
+    return redirect("/dashboard");
 }
 
 export default function SignIn() {
     const { t } = useTranslation();
 
     return (
-        <div className="h-full flex justify-center items-center">
+        <ViewCenter>
             <title>{t("signin.meta.title")}</title>
             <meta name="description" content={t("signin.meta.description")}/>
             <meta name="keywords" content={t("signin.meta.keywords")}/>
             
             <SignInForm />
-        </div>
+        </ViewCenter>
     )
 }

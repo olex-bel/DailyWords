@@ -3,12 +3,15 @@ import { Await } from "react-router";
 import { useTranslation } from "react-i18next";
 import DashboardHero from "~/features/dashboard/components/DashboardHero";
 import RecentEntries from "~/features/dashboard/components/RecentEntries";
+import RecentEntriesSkeleton from "~/features/dashboard/components/RecentEntriesSkeleton";
 import StatsGrid from "~/features/dashboard/components/StatsGrid";
 import SmartReview from "~/features/dashboard/components/SmartReview";
 import { getDashboardStats } from "~/features/dashboard/services/statsService";
 import { getRecentEntries } from "~/services/entryService";
 import type { Route } from "./+types/dashboard";    
 import type { RecentEntry } from "~/services/entryService";
+
+const RECENT_ENTRIES_LIMIT = 3;
 
 export async function clientLoader() {
     const stats = await getDashboardStats();
@@ -19,7 +22,7 @@ export async function clientLoader() {
     }
 
     if (stats.user_total_words > 0) {
-        recentEntries = getRecentEntries(3);
+        recentEntries = getRecentEntries(RECENT_ENTRIES_LIMIT);
     }
 
     return {
@@ -44,7 +47,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
             {
                 recentEntries && 
-                    <Suspense fallback={<div className="h-full flex justify-center items-center">Loading...</div>}>
+                    <Suspense fallback={<RecentEntriesSkeleton count={RECENT_ENTRIES_LIMIT} />}>
                         <Await resolve={recentEntries} errorElement={<div/>}>
                             {(entries) => <RecentEntries entries={entries} />}
                         </Await>

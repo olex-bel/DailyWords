@@ -1,9 +1,10 @@
 import { useReducer, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
+import { useEntryRating } from "../hooks/useEntryRating";
 import LearningSession from "./LearningSession";
 import PorgressBar from "~/shared/components/ui/ProgressBar";
-import NoWords from "./NoWords";
+import Toast from "~/shared/components/ui/Toast";
 import type { LearningState, LearningAction, Answer } from "~/features/learning/types";
 import type { Entry } from "~/services/entryService";
 
@@ -29,29 +30,26 @@ const learningReducer = (state: LearningState, action: LearningAction) => {
 };
 
 export default function LearningPage({ words }: LearningPageProps) {
+    const { error, setError, submitRating, isPending } = useEntryRating();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [state, reducer] = useReducer(learningReducer, {
-        known: 0,
-        harder: 0,
+    const [state, dispatch] = useReducer(learningReducer, {
+        know: 0,
+        hard: 0,
         unknown: 0,
         currentIndex: 0,
         completed: false,
     });
     const total = words.length;
 
-    function handleAnswer(type: Answer) {
-        const isLastWord = state.currentIndex + 1 >= total;
-
-        reducer({ type: 'ANSWER', payload: { answer: type, isLast: isLastWord } });
-    }
-
-    if (total === 0) {
-        return <NoWords />;
+    const handleAnswer= async (id: number, rating: Answer) => {
+        submitRating(id, rating, () => {
+            dispatch({ type: 'ANSWER', payload: { answer: rating, isLast: state.currentIndex + 1 >= total } });
+        });
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="relative flex flex-col h-full">
             <div className="flex items-center justify-between p-2 md:p-4">
                 <Link to="/dashboard" className="no-underline hover:underline">{t('learning.finishButton')}</Link>
                 <div className="flex items-center gap-4">
@@ -83,6 +81,8 @@ export default function LearningPage({ words }: LearningPageProps) {
                     </Suspense>
                 )}
             </div>
+
+            {error && <Toast onClose={() => setError(null)}>{error}</Toast>}
         </div>
     );
 }

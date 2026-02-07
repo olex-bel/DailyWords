@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Await } from "react-router";
+import { Await, redirect } from "react-router";
 import { useTranslation } from "react-i18next";
 import { getDailyEntries, MAX_DAILY_ENTRIES } from "~/services/entryService";
 import LearningPage from "~/features/learning/components/LearningPage";
@@ -8,6 +8,11 @@ import type { Route } from "./+types/learning";
 
 export async function clientLoader() {
     const words = getDailyEntries(MAX_DAILY_ENTRIES);
+
+    if (!words) {
+        redirect('/dashboard');
+    }
+
     return { words };
 }
 

@@ -8,8 +8,8 @@ import StatBox from "./StatBox";
 type SessionSummaryProps = {
     total: number;
     results: {
-        known: number;
-        harder: number;
+        know: number;
+        hard: number;
         unknown: number;
     };
     onRepeat: () => void;
@@ -35,8 +35,8 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 w-full">
-                    <StatBox label={t('learning.summary.know')} value={results.known} color="bg-green-500" textColor="text-green-600" />
-                    <StatBox label={t('learning.summary.hard')} value={results.harder} color="bg-orange-400" textColor="text-orange-600" />
+                    <StatBox label={t('learning.summary.know')} value={results.know} color="bg-green-500" textColor="text-green-600" />
+                    <StatBox label={t('learning.summary.hard')} value={results.hard} color="bg-orange-400" textColor="text-orange-600" />
                     <StatBox label={t('learning.summary.dontKnow')} value={results.unknown} color="bg-red-400" textColor="text-red-600" />
                 </div>
 

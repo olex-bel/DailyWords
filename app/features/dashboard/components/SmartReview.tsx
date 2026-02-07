@@ -14,7 +14,7 @@ type SmartReviewProps = {
 export default function SmartReview({ stats }: SmartReviewProps) {
     const { t } = useTranslation();
     const { profile } = useAuthContext();
-    const status = getReviewStatus(stats, profile.last_seen_at);
+    const status = getReviewStatus(stats, profile);
     const showButton = status !== 'COMPLETED_TODAY' && status !== 'ALL_LEARNED';
 
     return (

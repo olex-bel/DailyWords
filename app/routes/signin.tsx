@@ -6,16 +6,6 @@ import supabase from "~/services/supabase";
 import ViewCenter from "~/shared/components/layout/ViewCenter";
 import SignInForm from "~/features/auth/components/SignInForm";
 
-export async function clientLoader() {
-    const { data: { session }, error } = await supabase.auth.getSession();
-
-    if (session && !error) {
-        return redirect("/learning");
-    }
-
-    return null;
-}
-
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const formData = await request.formData();
     const email = formData.get("email") as string;

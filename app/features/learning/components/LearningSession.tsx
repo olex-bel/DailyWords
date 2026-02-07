@@ -7,14 +7,13 @@ import type { Entry } from "../../../services/entryService";
 
 type LearningSessionProps = {
     entry: Entry;
-    onAnswer: (answer: Answer) => void;
+    onAnswer: (id: number, answer: Answer) => void;
 }
 
 export default function LearningSession({
     entry,
     onAnswer,
 }: LearningSessionProps) {
-
     const { t } = useTranslation();
 
     return (
@@ -24,7 +23,7 @@ export default function LearningSession({
             <div className="grid grid-flow-col auto-cols-fr gap-4 mt-6 md:mt-8 text-xs md:text-sm">
                 <Button 
                     className="bg-white border-1 border-red-100 hover:bg-red-50 text-red-600 transition-all active:scale-95 px-4 py-2" 
-                    onClick={() => onAnswer('unknown')}
+                    onClick={() => onAnswer(entry.id, 'unknown')}
                     icon={<RiCloseFill />}
                 >
                     {t('learning.unknownButton')}
@@ -32,7 +31,7 @@ export default function LearningSession({
 
                 <Button 
                     className="bg-white border-1 border-orange-100 hover:bg-orange-50 text-orange-600 transition-all active:scale-95 px-4 py-2" 
-                    onClick={() => onAnswer('harder')}
+                    onClick={() => onAnswer(entry.id, 'hard')}
                     icon={<RiErrorWarningLine />}
                 >
                     {t('learning.hardButton')}
@@ -40,7 +39,7 @@ export default function LearningSession({
 
                 <Button 
                     className="bg-white border-1 border-green-100 hover:bg-green-50 text-green-600 transition-all active:scale-95 px-4 py-2" 
-                    onClick={() => onAnswer('known')}
+                    onClick={() => onAnswer(entry.id, 'know')}
                     icon={<RiCheckFill />}
                 >
                     {t('learning.knownButton')}

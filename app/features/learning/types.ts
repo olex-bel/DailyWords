@@ -1,5 +1,5 @@
 
-export type Answer = 'known' | 'harder' | 'unknown';
+export type Answer = 'know' | 'hard' | 'unknown';
 
 type Action<T extends string, P = undefined> = 
   [P] extends [undefined]? 
@@ -18,8 +18,8 @@ type SetCompletedAction = Action<'SET_COMPLETED', boolean>;
 export type LearningAction = AnswerAction | IncrementIndexAction | SetCompletedAction;
 
 export interface LearningState {
-    readonly known: number;
-    readonly harder: number;
+    readonly know: number;
+    readonly hard: number;
     readonly unknown: number;
     readonly currentIndex: number;
     readonly completed: boolean;

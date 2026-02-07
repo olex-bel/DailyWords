@@ -1,24 +1,13 @@
 import { useEffect } from "react";
 import { Outlet, redirect, useRevalidator } from "react-router"
 import supabase from "~/services/supabase"
-import { getUserProfile } from "~/services/profileService";
-import { withSessionCache } from '~/utils/withSessionCache';
+import { getUserProfileCached } from "~/services/profileService.cached";
 import logo from "~/asset/logo.svg";
 import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
 import type { UserProfile } from "~/services/profileService";
 import type { LoaderFunctionArgs } from "react-router";
 import type { Route } from "./+types/app";
 import type { AuthOutletContext } from "~/hooks/useAuthContext";
-
-const getUserProfileCached = withSessionCache(
-    async (userId: string) => {
-        return getUserProfile(userId);
-    },
-    {
-        key: (userId: string) => `user_profile_${userId}`,
-        ttlMs: 30 * 60 * 1000, // 30 minutes
-    }
-);
 
 export async function clientLoader({ request}: LoaderFunctionArgs) {
     const { data: { session }, error } = await supabase.auth.getSession();

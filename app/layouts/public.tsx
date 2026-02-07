@@ -2,7 +2,7 @@
 import { Outlet, redirect } from "react-router";
 import supabase from "~/services/supabase";
 
-export async function clientAction() {
+export async function clientLoader() {
     const { data: { session }, error } = await supabase.auth.getSession();
 
     if (session && !error) {

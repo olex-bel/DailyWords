@@ -28,6 +28,9 @@
             "message": "Не вдалося завантажити слова.",
             "retryButton": "Спробувати ще раз"
         },
+        "updateError": {
+            "message": "Помилка збереження прогресу."
+        },
         "finishButton": "← Вийти з навчання",
         "completedText": "Слова вивчені",
         "knownButton": "Знаю",
@@ -42,7 +45,8 @@
             "repeatButton": "ПОвторити складні",
             "exitButton": "Вийти з навчання",
             "totalCards": "Всього: {{total}} карток"
-        }
+        },
+        "audioTitle": "Прослухати вимову"
     },
     "signin": {
         "meta": {

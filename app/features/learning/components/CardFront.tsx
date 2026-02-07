@@ -1,7 +1,9 @@
 import CardHeader from "./CardHeader";
 import Button from "~/shared/components/ui/Button";
+import AudioPlayer from "./AudioPlayer";
 import { useTranslation } from "react-i18next";
 import { getWordStyle } from "~/features/learning/utils/card";
+import supabase from "~/services/supabase";
 import type { Entry } from "../../../services/entryService";
 
 
@@ -12,7 +14,7 @@ type CardFrontProps = {
 
 export default function CardFront({ entry, onShowTranslation }: CardFrontProps) {
     const { t } = useTranslation();
-    const { content, grammar, example } = entry;
+    const { content, grammar, example, audio_url } = entry;
     const style = getWordStyle(grammar);
 
     return (
@@ -25,6 +27,9 @@ export default function CardFront({ entry, onShowTranslation }: CardFrontProps) 
                 <p className="font-serif text-lg md:text-xl italic text-ink-light leading-relaxed">
                     {example}
                 </p>
+            </div>
+            <div className="h-10 flex justify-center flex-none">
+                {audio_url && <AudioPlayer url={audio_url} />}
             </div>
             <Button 
                 variant="primary"

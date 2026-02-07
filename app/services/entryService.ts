@@ -66,7 +66,10 @@ export type Entry = {
     rating: EntryRating;
     stage: number;
     example: string;
+    audio_url: string | null;
 };
+
+export type ReviewRating = 'unknown' | 'hard' | 'know';
 
 export async function getDailyEntries(number_of_words: number) {
     const { data, error } = await supabase.rpc('get_daily_entries', { 'target_limit': number_of_words });
@@ -75,7 +78,18 @@ export async function getDailyEntries(number_of_words: number) {
         throw new Error(error.message);
     }
 
-    return data as Entry[];
+    return (data as any[] ?? []).map((entry) => {
+        const audio_url = entry.audio_path
+            ? supabase.storage
+                .from('audio')
+                .getPublicUrl(`public/${entry.audio_path}`).data.publicUrl
+            : null;
+
+        return {
+            ...entry,
+            audio_url,
+        };
+  });
 }
 
 export async function getRecentEntries(number_of_words: number): Promise<RecentEntry[]> {
@@ -90,4 +104,13 @@ export async function getRecentEntries(number_of_words: number): Promise<RecentE
         ...entry,
         created_at: parseDate(entry.created_at)
     })) as RecentEntry[];
+}
+
+export async function updateCardReview(id: number, rating: ReviewRating) {
+    const { error } = await supabase.rpc('update_card_review', { 'p_entry_id': id, 'p_rating': rating });
+
+    if (error) {
+        console.error('Error update entre rating:', error);
+        throw error;
+    }
 }

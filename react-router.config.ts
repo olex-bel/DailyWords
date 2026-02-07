@@ -8,7 +8,7 @@ export default {
     v8_middleware: true,
   },
   async prerender() {
-    return ['/'];
+    return ['/', '/dashboard', '/learning', '/signin'];
   },
   basename: "/daily-words/",
 } satisfies Config;

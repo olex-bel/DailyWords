@@ -43,7 +43,7 @@ body {
     75% { transform: rotate(15deg); }
   }
 
-  --animate-wave: wave 0.8s ease-in-out infinite;
+  --animate-wave: wave 0.8s ease-in-out 4;
 }
 
 .animate-zoom-in {

@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  base: "/daily-words/",
+  base: '/daily-words',
+  build: { assetsDir: "daily-words/assets" },
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
 });

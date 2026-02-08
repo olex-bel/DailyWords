@@ -10,5 +10,5 @@ export default {
   async prerender() {
     return ['/', '/dashboard', '/learning', '/signin'];
   },
-  basename: "/daily-words/",
+  basename: "/daily-words",
 } satisfies Config;
